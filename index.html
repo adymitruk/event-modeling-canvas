@@ -51,22 +51,55 @@
         background-color: #FFFFFF;
         display: flex;
         flex-direction: row;
+        overflow-x: auto; /* Enable horizontal scrolling */
+    }
+    .slice {
+        min-height: 300px;
+        flex-basis: 50px; /* Start with min-width */
+        max-width: 200px; /* Maximum width when content is added */
+        border: 3px solid #c1c1c1;
+        border-radius: 10px; /* Corrected color code */
+        flex-grow: 0;
+        flex-shrink: 0; /* Prevent shrinking below the min-width */
+        overflow: auto; /* Scrollbar for overflowing content */
+        background-color: #FFFFFF;
+        box-shadow: 3px 3px 9px rgba(0, 0, 0, 0.2); /* Shadow for 3D effect */
+        margin: 5px; /* Space between notes */
+        padding: 5px; /* Padding inside the note */
+        font-family: 'Comic Sans MS', 'Comic Sans', cursive; /* Optional: Gives a handwritten look */
+        transition: transform 0.5s ease; /* Smooth rotation effect on hover */
     }
 
-    .event-model div {
-        min-height: 300px;
-        min-width: 50px;
-        border: 1px solid #000;
-        flex-grow: 1;
+    .slice:hover {
+        background-color: #ffffee;
+        box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2); /* Shadow for 3D effect */
     }
+
+    .event {
+        border: 3px solid #c1c1c1; /* Inherit line style from .slice */
+        background-color: #fffb7a;
+        min-height: 50px; /* Inherit color style from .slice */
+    }
+
     </style>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const createSliceButton = document.querySelector('button');
         const eventModelDiv = document.getElementById('event-model');
 
+        document.addEventListener('dblclick', function(e) {
+            if (e.target.classList.contains('slice')) {
+                const innerDiv = document.createElement('div');
+                innerDiv.classList.add('event');
+                innerDiv.contentEditable = true;
+                e.target.appendChild(innerDiv);
+            }
+        });
+
+        
         createSliceButton.addEventListener('click', function() {
             const newDiv = document.createElement('div');
+            newDiv.classList.add('slice');
             eventModelDiv.appendChild(newDiv);
         });
     });
